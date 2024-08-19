@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class UserCreate(BaseModel):
-    username: str
-    password: str
+    email: str
+    password: Optional[str] = None
 
 class Token(BaseModel):
     access_token: str

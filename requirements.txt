@@ -6,3 +6,6 @@ python-multipart
 SQLAlchemy
 uvicorn
 passlib
+fastapi-authlib
+python-dotenv
+jinja2

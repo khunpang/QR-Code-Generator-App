@@ -3,14 +3,12 @@ from .models import User
 from .schemas import UserCreate
 from .auth import pwd_context
 
-# ฟังก์ชันค้นหาผู้ใช้ตามชื่อผู้ใช้
-def get_user_by_username(db: Session, username: str):
-    return db.query(User).filter(User.username == username).first()
+def get_user_by_email(db: Session, email: str):
+    return db.query(User).filter(User.email == email).first()
 
-# ฟังก์ชันสร้างผู้ใช้ใหม่
 def create_user(db: Session, user: UserCreate):
-    hashed_password = pwd_context.hash(user.password)  # Hash รหัสผ่าน
-    db_user = User(username=user.username, hashed_password=hashed_password)
-    db.add(db_user)  # เพิ่มผู้ใช้ใหม่ในฐานข้อมูล
-    db.commit()  # บันทึกการเปลี่ยนแปลง
+    hashed_password = pwd_context.hash(user.password) if user.password else None
+    db_user = User(email=user.email, hashed_password=hashed_password)
+    db.add(db_user)
+    db.commit()
     return db_user

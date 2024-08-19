@@ -1,11 +1,18 @@
-import jwt
-from jwt import JWTError
+import os
+from dotenv import load_dotenv
+from jose import JWTError, jwt
 from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from .models import User
 from fastapi import HTTPException, Depends
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 # Password Hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -19,14 +26,9 @@ def verify_password(plain_password, hashed_password):
 # OAuth2
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# JWT settings
-SECRET_KEY = "0621a1cd49f97e3820d64369a078de7656beda86313335d23934fd458c86434c"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
 # Authenticate the user
 def authenticate_user(username: str, password: str, db: Session):
-    user = db.query(User).filter(User.username == username).first()
+    user = db.query(User).filter(User.email == username).first()
     if not user:
         return False
     if not pwd_context.verify(password, user.hashed_password):
