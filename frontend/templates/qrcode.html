@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
-</head>
-<body>
-    <h1>Generate Your Custom QR Code</h1>
-    <h3>Enter your text below to create a QR code in seconds.</h3>
-</body>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    </head>
+  <body>
+    <div class="container">
+      <div class="container-left" id="qrcode-container">
+        <div class="wrapper-left">
+          <div class="part-one">
+            <h1>Generate Your Custom QR Code</h1>
+            <p>Enter your text below to create a QR code in seconds.</p>
+          </div>
+          <div class="message-box">
+            <textarea placeholder="Enter Your Text Here:"></textarea>
+          </div>
+          <div id="qr-code-container" style="display: none;">
+            <img id="qr-code-image" src="" alt="QR Code">
+          </div>
+          <div class="buttons">
+            <button class="btn-one" type="button" onclick="generateQRCode()">Generate QR Code</button>
+          </div>
+          <a href="/history">
+            <div class="buttons">
+                <button class="btn-history">View History</button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

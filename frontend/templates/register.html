@@ -4,52 +4,54 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Register</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
+  </head>
   <body>
     <div class="container">
       <div class="container-left">
         <div class="wrapper-left">
           <div class="part-one">
-            <h2>Hi, Welcome Back!</h2>
-            <p>Let's Create Some QR Codes.</p>
+            <h2>Create an account</h2>
+            <p>Join us to start generating your custom QR codes.</p>
           </div>
           <div class="inp">
             <form action="/register" method="post">
-              <label for="" class="email">E-mail </label>
+              <label for="email" class="email">E-mail</label>
               <input
+                id="email"
                 class="inp-left"
                 type="email"
                 placeholder="Enter Your Email"
                 name="email"
+                required
               />
-              <label for="" class="pass">Password </label>
+              <label for="password" class="pass">Password</label>
               <input
+                id="password"
                 class="inp-left"
                 type="password"
                 placeholder="Enter Your Password"
                 name="password"
+                required
               />
+              <div class="buttons">
+                <button class="btn-one" type="submit">Sign Up</button>
+              </div>
             </form>
-          </div>
-          <a href="/login">
-            <div class="buttons">
-                <button class="btn-one">Login</button>
-            </div>
-          </a>
           <div class="down">
             <span>Or With</span>
           </div>
           <a href="/login/google">
             <div class="buttons">
                 <button class="btn-two">
-                <i class="fab fa-google"></i> Login with Google
+                <i class="fab fa-google"></i> Sign Up with Google
                 </button>
             </div>
           </a>
-          <p class="signup-text">Don’t have an account? <a href="/register">Sign Up</a></p>
+          <p class="signup-text">Already have an account? <a href="/">Login</a></p>
         </div>
       </div>
     </div>

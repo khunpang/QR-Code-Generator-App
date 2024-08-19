@@ -1,5 +1,5 @@
 from datetime import timedelta
-from fastapi import FastAPI, HTTPException, Depends, status, Request
+from fastapi import FastAPI, HTTPException, Depends, status, Request, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
@@ -68,12 +68,25 @@ def qrcode(request: Request):
         return RedirectResponse('/')
     return templates.TemplateResponse(name='qrcode.html', context={'request': request, 'user': user})
 
+@app.get('/register')
+def register(request: Request):
+    user = request.session.get('user')
+    return templates.TemplateResponse('register.html', {'request': request})
+
 @app.post("/register")
-def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = get_user_by_email(db, email=user.username)
+def register_user(
+    request: Request,
+    email: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    db_user = get_user_by_email(db, email=email)
     if db_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-    create_user(db=db, user=user)
+
+    user_create = UserCreate(email=email, password=password)
+    create_user(db=db, user=user_create)
+    request.session['user'] = {'email': email}
     return RedirectResponse('/qrcode')
 
 @app.post("/login", response_model=Token)
@@ -115,10 +128,10 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         email = user.get('email')
         db_user = get_user_by_email(db, email=email)
         if not db_user:
-            create_user(db=db, user=UserCreate(username=email, password=None))
+            create_user(db=db, user=UserCreate(email=email, password=None))
         request.session['user'] = dict(user)
         return RedirectResponse('/qrcode')
-        
+
     return JSONResponse(
         status_code=400,
         content={"detail": "User info is not available."}
