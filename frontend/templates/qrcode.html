@@ -7,24 +7,24 @@
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    </head>
+    <script src="../static/js/qrcode.min.js"></script>
+  </head>
   <body>
     <div class="container">
       <div class="container-left" id="qrcode-container">
         <div class="wrapper-left">
-          <div class="part-one">
+          <div class="part-one" id="qrcode-part-one">
             <h1>Generate Your Custom QR Code</h1>
             <p>Enter your text below to create a QR code in seconds.</p>
           </div>
           <div class="message-box">
             <textarea placeholder="Enter Your Text Here:"></textarea>
           </div>
-          <div id="qr-code-container" style="display: none;">
-            <img id="qr-code-image" src="" alt="QR Code">
-          </div>
+          <div id="qr-code-container" style="display: none;"></div>
           <div class="buttons">
             <button class="btn-one" type="button" onclick="generateQRCode()">Generate QR Code</button>
           </div>
+          <script src="../static/js/qr_gen.js"></script>
           <a href="/history">
             <div class="buttons">
                 <button class="btn-history">View History</button>
