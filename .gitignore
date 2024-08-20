@@ -4,3 +4,5 @@
 frontend/static/qr_code_downloaded
 
 test.db
+
+__pycache__/

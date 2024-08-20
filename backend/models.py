@@ -10,7 +10,6 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
 
-    # การเชื่อมโยงไปยัง QRCodeHistory
     qrcode_histories = relationship("QRCodeHistory", back_populates="owner")
 
 class QRCodeHistory(Base):
