@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code History</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container" id="table-container">
+      <h1>QR Code History</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>QR Code</th>
+            <th>Created Date</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in history %}
+          <tr>
+            <td>{{ item.text }}</td>
+            <td>{{ item.created_at }}</td>
+            <td>
+              <a
+                href="{{ url_for('static', path='qr_code_downloaded/' + item.qr_code_image_filename) }}"
+                download
+                >Download</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="/qrcode" class="btn">Back to QR Code Generator</a>
+    </div>
+  </body>
+</html>

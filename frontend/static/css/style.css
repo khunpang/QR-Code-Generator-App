@@ -1,199 +1,254 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Poppins';
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Poppins";
+}
 body {
-    background-color: #f8f8f8;
-    font-size: 14px;
+  background-color: #f8f8f8;
+  font-size: 14px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  nav {
+    width: 100%;
+    justify-content: between;
+    border-bottom: 1px solid #000;
   }
+}
 
 .container-left {
-    width: 350px;
-    height: 590px;
-    margin: 150px auto;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+  width: 350px;
+  /* height: 590px; */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .wrapper-left .part-one {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    padding: 30px 20px;
-    margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  padding: 30px 20px;
+  margin-bottom: 20px;
 }
 .wrapper-left .part-one h1,
 .wrapper-left .part-one h2 {
-      color: #000000;
-      margin-bottom: 4px;
-      text-align: center;
-  }
+  color: #000000;
+  margin-bottom: 4px;
+  text-align: center;
+}
 
 .wrapper-left .part-one p {
-    color: #343434;
-    text-align: center;
-  }
+  color: #343434;
+  text-align: center;
+}
 
 .wrapper-left .inp form {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 .wrapper-left .inp form .inp-left {
-    border: 0;
-    outline: none;
-    width: 100%;
-    border: 1px solid #d7d6db;
-    border-radius: 7px;
-    height: 40px;
-    margin: 5px 0 15px 0;
-  }
+  border: 0;
+  outline: none;
+  width: 100%;
+  border: 1px solid #d7d6db;
+  border-radius: 7px;
+  height: 40px;
+  margin: 5px 0 15px 0;
+}
 .wrapper-left .inp form input::placeholder {
-    font-size: 14px;
-    color: #9d9d9f;
-    
-  }
+  font-size: 14px;
+  color: #9d9d9f;
+}
 .wrapper-left .inp {
-    position: relative;
-  }
+  position: relative;
+}
 .wrapper-left .inp form input[type="email"],
-  input[type="password"] {
-    padding: 0 10px;
-  }
+input[type="password"] {
+  padding: 0 10px;
+}
 .wrapper-left .inp form input[type="email"]:focus {
-    border: 1px solid #115efa;
-  }
+  border: 1px solid #115efa;
+}
 .wrapper-left .inp form input[type="password"]:focus {
-    border: 1px solid #115efa;
-  }
+  border: 1px solid #115efa;
+}
 .wrapper-left .inp form i {
-    color: #9a9a9c;
-    position: absolute;
-  }
+  color: #9a9a9c;
+  position: absolute;
+}
 .wrapper-left .inp form i.pass {
-    top: 135.5px;
-    left: 11px;
-  }
+  top: 135.5px;
+  left: 11px;
+}
 .wrapper-left .inp form i.envelope {
-    left: 11px;
-    top: 48.2px;
-  }
+  left: 11px;
+  top: 48.2px;
+}
 .wrapper-left .inp form label {
-    color: #01000d;
-  }
+  color: #01000d;
+}
 .wrapper-left .buttons {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    gap: 12px;
-  }
-.wrapper-left .buttons .btn-one, .btn-two, .btn-history {
-    border: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 45px;
-    border-radius: 25px;
-  }
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  gap: 12px;
+}
+.wrapper-left .buttons .btn-one,
+.btn-two,
+.btn-history {
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 45px;
+  border-radius: 25px;
+}
 .wrapper-left .buttons .btn-one {
-    background-color: #115efa;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-  }
+  background-color: #115efa;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
 .wrapper-left .buttons .btn-two {
-    background-color: #fff;
-    border: 1px solid #d9d9db;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
+  background-color: #fff;
+  border: 1px solid #d9d9db;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
 
 .down {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
 }
 
 .down::before,
 .down::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid #ccc;
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
 }
 
 .down::before {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .down::after {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .signup-text {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
 }
 
 .signup-text a {
-    color: #1a0dab;
-    text-decoration: none;
+  color: #1a0dab;
+  text-decoration: none;
 }
 
 .signup-text a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* qr code page  */
 
 .message-box {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
-    box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: none;
 }
 
 textarea:focus {
-    border-color: #007bff;
-    outline: none;
+  border-color: #007bff;
+  outline: none;
 }
 
 #qrcode-container {
-    background-color: transparent;
-    box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .wrapper-left .buttons .btn-history {
-    background-color: #B0B0B0;
-    border: 1px solid #d9d9db;
-    font-size: 16px;
-    margin-bottom: 5px;
-    color: #fff;
-  }
+  background-color: #b0b0b0;
+  border: 1px solid #d9d9db;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #fff;
+}
 
 #qr-code-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 #qrcode-part-one {
   margin-bottom: 0px;
+}
+
+/* qr code history  */
+#table-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  th,
+  td {
+    /* border: 1px solid #ddd; */
+    padding: 8px;
+    color: black;
+    font-weight: bold;
+  }
+
+  thead > tr th {
+    background-color: rgba(51, 51, 51, 0.8);
+    color: white;
+    text-align: center;
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(51, 51, 51, 0.2);
+  }
+}
+
+.btn {
+  background-color: #115efa;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
 }

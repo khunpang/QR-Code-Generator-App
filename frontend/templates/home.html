@@ -5,9 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    </head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+  </head>
   <body>
     <div class="container">
       <div class="container-left">
@@ -17,7 +23,7 @@
             <p>Let's Create Some QR Codes.</p>
           </div>
           <div class="inp">
-            <form action="/register" method="post">
+            <form action="/login" method="post">
               <label for="" class="email">E-mail </label>
               <input
                 class="inp-left"
@@ -32,24 +38,24 @@
                 placeholder="Enter Your Password"
                 name="password"
               />
+              <div class="buttons">
+                <button class="btn-one" type="submit">Login</button>
+              </div>
             </form>
           </div>
-          <a href="/login">
-            <div class="buttons">
-                <button class="btn-one">Login</button>
-            </div>
-          </a>
           <div class="down">
             <span>Or With</span>
           </div>
           <a href="/login/google">
             <div class="buttons">
-                <button class="btn-two">
+              <button class="btn-two">
                 <i class="fab fa-google"></i> Login with Google
-                </button>
+              </button>
             </div>
           </a>
-          <p class="signup-text">Don’t have an account? <a href="/register">Sign Up</a></p>
+          <p class="signup-text">
+            Don’t have an account? <a href="/register">Sign Up</a>
+          </p>
         </div>
       </div>
     </div>

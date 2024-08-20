@@ -5,8 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
     <script src="../static/js/qrcode.min.js"></script>
   </head>
   <body>
@@ -20,14 +26,16 @@
           <div class="message-box">
             <textarea placeholder="Enter Your Text Here:"></textarea>
           </div>
-          <div id="qr-code-container" style="display: none;"></div>
+          <div id="qr-code-container" style="display: none"></div>
           <div class="buttons">
-            <button class="btn-one" type="button" onclick="generateQRCode()">Generate QR Code</button>
+            <button class="btn-one" type="button" onclick="generateQRCode()">
+              Generate QR Code
+            </button>
           </div>
           <script src="../static/js/qr_gen.js"></script>
           <a href="/history">
             <div class="buttons">
-                <button class="btn-history">View History</button>
+              <button class="btn-history">View History</button>
             </div>
           </a>
         </div>

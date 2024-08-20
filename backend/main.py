@@ -1,3 +1,9 @@
+import base64
+from typing import Annotated
+from PIL import Image
+from io import BytesIO
+from pathlib import Path
+
 from datetime import timedelta
 from fastapi import FastAPI, HTTPException, Depends, status, Request, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,16 +13,17 @@ from starlette.responses import RedirectResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from sqlalchemy.orm import Session
-from .database import engine, SessionLocal
-from .models import Base
+from .database import Base, engine, SessionLocal
+from .models import QRCodeHistory
 from .crud import get_user_by_email, create_user
-from .schemas import UserCreate, Token
+from .schemas import UserCreate, Token, QRCodeHistoryCreate
 from .auth import authenticate_user, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from .config import CLIENT_ID, CLIENT_SECRET, SESSION_SECRET_KEY
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 origins = "http://localhost:8000"
@@ -48,8 +55,8 @@ templates = Jinja2Templates(directory="frontend/templates")
 
 # Dependency
 def get_db():
-    db = SessionLocal()
     try:
+        db = SessionLocal()
         yield db
     finally:
         db.close()
@@ -86,23 +93,29 @@ def register_user(
 
     user_create = UserCreate(email=email, password=password)
     create_user(db=db, user=user_create)
-    request.session['user'] = {'email': email}
-    return RedirectResponse('/qrcode')
+    request.session['user'] = dict(user_create)
+    # change status code 302 for GET request
+    return RedirectResponse('/qrcode', status_code=status.HTTP_302_FOUND)
 
-@app.post("/login", response_model=Token)
-def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = authenticate_user(form_data.username, form_data.password, db)
+@app.post("/login")
+def login_for_access_token(request: Request, email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
+    user = authenticate_user(email, password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    # generate access token
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={
+            "sub": user.email
+        },
+        expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    request.session['user'] = user
+    return RedirectResponse('/qrcode', status_code=status.HTTP_302_FOUND)
 
 @app.get("/verify-token/{token}")
 async def verify_user_token(token: str):
@@ -129,6 +142,15 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         db_user = get_user_by_email(db, email=email)
         if not db_user:
             create_user(db=db, user=UserCreate(email=email, password=None))
+        
+        # generate access token
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={
+                "sub": user.email
+            },
+            expires_delta=access_token_expires
+        )
         request.session['user'] = dict(user)
         return RedirectResponse('/qrcode')
 
@@ -136,6 +158,54 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         status_code=400,
         content={"detail": "User info is not available."}
     )
+
+def save_qr_code_image(image_base64: str, filename: str):
+    image_data = base64.b64decode(image_base64.split(',')[1])
+    image = Image.open(BytesIO(image_data))
+    image_path = Path('frontend/static/qr_code_downloaded') / filename
+    image.save(image_path)
+
+@app.post("/save_qr_history")
+def save_qr_history(request: Request, qr_history: QRCodeHistoryCreate, db: Session = Depends(get_db)):
+    user = request.session.get('user')
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+
+    db_user = get_user_by_email(db, email=user.get('email'))
+    if not db_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    qr_code_image_base64 = qr_history.qr_code_image_base64
+    qr_code_image_filename = qr_history.qr_code_image_filename
+
+    # save QR Code image 
+    if qr_code_image_base64:
+        save_qr_code_image(qr_code_image_base64, qr_code_image_filename)
+
+    qr_code_history = QRCodeHistory(
+        text=qr_history.text,
+        qr_code_image_filename=qr_code_image_filename,
+        owner_id=db_user.id
+    )
+    db.add(qr_code_history)
+    db.commit()
+    db.refresh(qr_code_history)
+    return {"message": "QR Code history saved", "qr_code_id": qr_code_history.id}
+    
+@app.get("/history")
+def get_qr_history(request: Request, db: Session = Depends(get_db)):
+    user = request.session.get('user')
+    # print(user)
+    if not user:
+        return RedirectResponse('/')
+    print(user.get("email"))
+    db_user = get_user_by_email(db, email=user.get('email'))
+    if not db_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    qr_code_history = db.query(QRCodeHistory).filter(QRCodeHistory.owner_id == db_user.id).all()
+    print(qr_code_history)
+    return templates.TemplateResponse('history.html', {'request': request, 'history': qr_code_history})
 
 @app.get('/logout')
 def logout(request: Request):

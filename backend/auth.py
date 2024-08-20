@@ -27,8 +27,8 @@ def verify_password(plain_password, hashed_password):
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Authenticate the user
-def authenticate_user(username: str, password: str, db: Session):
-    user = db.query(User).filter(User.email == username).first()
+def authenticate_user(email: str, password: str, db: Session):
+    user = db.query(User).filter(User.email == email).first()
     if not user:
         return False
     if not pwd_context.verify(password, user.hashed_password):
