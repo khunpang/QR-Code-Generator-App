@@ -18,15 +18,18 @@ from .models import QRCodeHistory
 from .crud import get_user_by_email, create_user
 from .schemas import UserCreate, Token, QRCodeHistoryCreate
 from .auth import authenticate_user, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from .config import CLIENT_ID, CLIENT_SECRET, SESSION_SECRET_KEY
+from .config import CLIENT_ID, CLIENT_SECRET, ENVIRONMENT, SESSION_SECRET_KEY
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+if ENVIRONMENT != "production":
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+else:
+    Base.metadata.create_all(bind=engine)
 
-origins = "http://localhost:8000"
+origins = ["http://localhost:8000", "http://ec2-3-27-223-46.ap-southeast-2.compute.amazonaws.com"]
 
 app.add_middleware(
     CORSMiddleware,

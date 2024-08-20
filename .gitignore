@@ -1,0 +1,4 @@
+.env
+/env
+
+./frontend/static/qr_code_downloaded
