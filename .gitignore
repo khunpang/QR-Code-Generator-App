@@ -1,4 +1,6 @@
 .env
 /env
 
-./frontend/static/qr_code_downloaded
+frontend/static/qr_code_downloaded
+
+test.db

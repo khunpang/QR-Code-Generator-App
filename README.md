@@ -6,4 +6,4 @@ First, install docker and run this command.
 
 Then
 
-> docker run -p 80:80 -e MODULE_NAME="backend.main" qr-code-gen-app
+> docker run -p 80:80 -e MODULE_NAME="backend.main" qr-code-generator-image

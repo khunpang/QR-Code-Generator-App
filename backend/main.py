@@ -25,9 +25,7 @@ app = FastAPI()
 
 if ENVIRONMENT != "production":
     Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
-else:
-    Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine, checkfirst=True)
 
 origins = ["http://localhost:8000", "http://ec2-3-27-223-46.ap-southeast-2.compute.amazonaws.com"]
 
